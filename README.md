@@ -13,7 +13,7 @@ This is the **Infra** repository (Terraform + bootstrap). The app lives in its c
 
 ## Start
 
-1. Read the [walkthrough](docs/walkthrough.md) (9 steps: plan, code, build, test, provision, deploy, monitor, iterate, submit), or watch the [narrated tutorial](docs/tutorial.mp4) (6m42s).
+1. Read the [walkthrough](docs/walkthrough.md) (9 steps: plan, code, build, test, provision, deploy, monitor, iterate, submit), or watch the [narrated tutorial](docs/tutorial.mp4) (5 min).
 2. Create your repos, run the bootstrap, deploy:
 
 ```bash
@@ -22,7 +22,7 @@ gh repo create <team>-rospin-infra --public --clone --template agi1clj/ROSPIN_Wo
 cd <team>-rospin-infra && ./bootstrap/bootstrap.sh
 ```
 
-You need: GitHub account, an Azure subscription (Azure for Students works), Git, Docker, Azure CLI, GitHub CLI, Terraform 1.14+. On Windows use Git Bash or WSL2.
+You need: a GitHub account, an Azure for Students subscription (Owner role), Git, Docker Desktop (running), Azure CLI, GitHub CLI and Terraform 1.14+. Install links and checks: the [Before you start](docs/walkthrough.md#before-you-start-do-this-the-day-before-about-30-minutes) list. On Windows use Git Bash, not PowerShell.
 
 ## What you build
 
@@ -33,6 +33,8 @@ You need: GitHub account, an Azure subscription (Azure for Students works), Git,
 | Bootstrap | 2 min |
 | First deployment (3 stages) | about 7 min |
 | Every later `git push` to live | about 90 s |
+
+Delete everything with `./scripts/cleanup.sh` when you finish: the registry costs money every day.
 
 ## Best practices built in
 

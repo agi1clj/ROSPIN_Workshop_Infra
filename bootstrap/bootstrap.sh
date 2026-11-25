@@ -135,7 +135,7 @@ check_dependencies() {
   info "Checking required tools"
   local tool
   for tool in az gh terraform git; do
-    command -v "$tool" >/dev/null 2>&1 || die "'$tool' is not installed. See docs/student-walkthrough.md > Tools to install first."
+    command -v "$tool" >/dev/null 2>&1 || die "'$tool' is not installed. See docs/walkthrough.md > Before you start."
   done
   ok "az, gh, terraform and git are installed"
 }
@@ -293,7 +293,7 @@ check_role_assignment_rights() {
     --output tsv 2>/dev/null || true)"
 
   if [[ -z "$assignments" ]]; then
-    problem "You are not Owner / User Access Administrator on this subscription: role assignments will fail. Ask your instructor to give you Owner on your subscription (README §8)."
+    problem "You are not Owner / User Access Administrator on this subscription: role assignments will fail. Ask your instructor to give you Owner on your subscription (docs/walkthrough.md > Common problems)."
     PREFLIGHT_CI_CAN_ASSIGN_ROLES=false
     return
   fi
@@ -307,7 +307,7 @@ check_role_assignment_rights() {
   else
     PREFLIGHT_CI_CAN_ASSIGN_ROLES=false
     warn "Your Owner role is constrained: it cannot delegate role management to GitHub Actions."
-    warn "Not an error: the one Terraform apply that creates the apps will run on your laptop (README > Initial deployment)."
+    warn "Not an error: the one Terraform apply that creates the apps will run on your laptop (docs/walkthrough.md, step 6c)."
   fi
 }
 
@@ -517,7 +517,7 @@ assign_github_roles() {
     unset "MANUAL_STEPS[$before]"
     CI_CAN_ASSIGN_ROLES=false
     warn "GitHub Actions cannot create role assignments in this subscription."
-    warn "The Terraform apply that creates the apps (AcrPull assignment) must run locally (README > Initial deployment)."
+    warn "The Terraform apply that creates the apps (AcrPull assignment) must run locally (docs/walkthrough.md, step 6c)."
   else
     CI_CAN_ASSIGN_ROLES=true
   fi
@@ -552,7 +552,7 @@ EOF
 terraform_init() {
   info "Initializing Terraform with the remote state backend"
   (cd "$TF_DIR" && retry 20 30 terraform init -input=false -reconfigure -backend-config=backend.hcl >/dev/null) ||
-    die "terraform init failed. Re-run this script in a few minutes (RBAC propagation) or see README > Common errors."
+    die "terraform init failed. Re-run this script in a few minutes (RBAC propagation) or see docs/walkthrough.md > Common problems."
   ok "terraform init succeeded (state: $STATE_STORAGE_ACCOUNT/$STATE_CONTAINER/dev.tfstate)"
 }
 
