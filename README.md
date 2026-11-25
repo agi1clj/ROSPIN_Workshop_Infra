@@ -13,7 +13,7 @@ This is the **Infra** repository (Terraform + bootstrap). The app lives in its c
 
 ## Start
 
-1. Read the [walkthrough](docs/walkthrough.md) (9 steps: plan, code, build, test, provision, deploy, monitor, iterate, submit).
+1. Read the [walkthrough](docs/walkthrough.md) (9 steps: plan, code, build, test, provision, deploy, monitor, iterate, submit), or watch the [narrated tutorial](docs/tutorial.mp4) (6m42s).
 2. Create your repos, run the bootstrap, deploy:
 
 ```bash
