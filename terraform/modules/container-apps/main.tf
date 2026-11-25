@@ -87,10 +87,11 @@ resource "azurerm_container_app" "backend" {
     max_replicas = 1
 
     container {
-      name   = "backend"
-      image  = "${local.registry_server}/backend:${var.initial_image_tag}"
-      cpu    = 0.25
-      memory = "0.5Gi"
+      name  = "backend"
+      image = "${local.registry_server}/backend:${var.initial_image_tag}"
+      # Live Sentinel-2 reads use CPU. 0.5 vCPU keeps the health probe answering in time.
+      cpu    = 0.5
+      memory = "1Gi"
 
       dynamic "env" {
         for_each = local.backend_settings
@@ -104,6 +105,9 @@ resource "azurerm_container_app" "backend" {
         transport = "HTTP"
         path      = "/health"
         port      = 8000
+        # A slow answer during a heavy request must not restart the container.
+        timeout                 = 5
+        failure_count_threshold = 5
       }
     }
   }
