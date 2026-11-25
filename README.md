@@ -13,7 +13,7 @@ This is the **Infra** repository (Terraform + bootstrap). The app lives in its c
 
 ## Start
 
-1. Read the [walkthrough](docs/walkthrough.md) (9 steps: plan, code, build, test, provision, deploy, monitor, iterate, submit), or watch the [narrated tutorial](docs/tutorial.mp4) (5 min).
+1. Read the [walkthrough](docs/walkthrough.md) (9 steps: plan, code, build, test, provision, deploy, monitor, iterate, submit), or watch the [narrated tutorial](docs/tutorial.mp4) (5 min, with captions). The workshop slides: [PDF](docs/ROSPIN-Cloud-Workshop.pdf) and [PPTX](docs/ROSPIN-Cloud-Workshop.pptx).
 2. Create your repos, run the bootstrap, deploy:
 
 ```bash
