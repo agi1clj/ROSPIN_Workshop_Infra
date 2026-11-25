@@ -15,6 +15,8 @@ You will take one app through the normal software lifecycle. Every step below ha
 
 Your **team code** is 2 to 5 lowercase letters or digits, starting with a letter (examples: `t01`, `agi`). It is part of every Azure name. One team uses one Azure subscription (one member hosts the app). Every member can still run all steps in their own subscription.
 
+Your repos are public, so GitHub Actions is free. The run logs show your Azure subscription ID and tenant ID. These IDs are not secrets and give no access. If you prefer, make the repos private in the repository settings.
+
 Replace in all commands: `<team>` = your team code, `<github-user>` = your GitHub user name.
 
 ---
@@ -58,10 +60,11 @@ Docker builds two **images** (backend, frontend) and starts them as **containers
 ## Step 4 - TEST: run the automated tests
 
 ```bash
-cd backend && pip install -r requirements-dev.txt && python -m pytest && cd ..
+docker run --rm -v "$PWD/backend:/app" -w /app python:3.13-slim \
+  sh -c "pip install -q -r requirements-dev.txt && python -m pytest -q"
 ```
 
-13 tests pass. GitHub Actions runs the same tests on every push (open *Actions* in your Apps repo and look at the first `backend` run: job `test`). A pull request runs only the tests. Deployment runs only on `main`.
+This runs the tests in a clean Python container, so you need no Python on your laptop. 14 tests pass (about 10 seconds). GitHub Actions runs the same tests on every push (open *Actions* in your Apps repo and look at the first `backend` run: job `test`). A pull request runs only the tests. Deployment runs only on `main`.
 
 ## Step 5 - PROVISION: bootstrap Azure (one time)
 
@@ -142,7 +145,7 @@ Try *Live Sentinel-2* in the app. It reads real satellite images from the public
 
 ## Step 8 - ITERATE: change the app, watch it deploy
 
-Ask your AI agent to make a change, for example: *"Add a new region for my city and a test for it."* Then review the diff yourself.
+Ask your AI agent to make a change, for example: *"Add a new region for my city."* The agent must add the region in `backend/app/regions.py` and create its sample data with `docker compose run --rm -v "$PWD/backend/app:/app/app" backend python -m app.export_sample <region-id>` (about 1 minute, needs internet). Without sample data the test fails and CI blocks the deploy: this is the safety net working. Review the diff yourself.
 
 ```bash
 cd ../<team>-rospin-apps
@@ -157,9 +160,11 @@ Check the Terraform side too:
 
 ```bash
 cd ../<team>-rospin-infra/terraform/environments/dev
-terraform plan        # should say "No changes"
+terraform plan        # compares the code with Azure
 terraform output
 ```
+
+After a deployment, `terraform plan` can list small in-place updates on the two apps (`cooldown_period_in_seconds`, `polling_interval_in_seconds`, probe `transport`, `traffic_weight`). Azure does not send these default values back, so Terraform always sees a difference. They change nothing, and Terraform never touches the image. Read the plan, and you will see that it is only this.
 
 ## Step 9 - SUBMIT
 

@@ -74,7 +74,7 @@ resource "azurerm_container_app" "backend" {
   ingress {
     external_enabled = true
     target_port      = 8000
-    transport        = "auto"
+    transport        = "http"
 
     traffic_weight {
       latest_revision = true
@@ -141,7 +141,7 @@ resource "azurerm_container_app" "frontend" {
   ingress {
     external_enabled = true
     target_port      = 8080
-    transport        = "auto"
+    transport        = "http"
 
     traffic_weight {
       latest_revision = true

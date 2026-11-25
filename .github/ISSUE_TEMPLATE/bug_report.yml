@@ -1,0 +1,15 @@
+name: Bug report
+description: Something in the walkthrough or the code does not work
+labels: [bug]
+body:
+  - type: input
+    id: step
+    attributes: { label: Walkthrough step or file, placeholder: "Step 6a, bootstrap.sh" }
+    validations: { required: true }
+  - type: dropdown
+    id: os
+    attributes: { label: Where do you run the commands, options: [macOS, Linux, "Windows (Git Bash)", "Windows (WSL2)"] }
+  - type: textarea
+    id: what
+    attributes: { label: What happened, description: "Paste the error. Remove subscription IDs if you want." }
+    validations: { required: true }
