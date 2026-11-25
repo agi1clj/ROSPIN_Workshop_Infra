@@ -27,8 +27,8 @@ Replace in all commands: `<team>` = your team code, `<github-user>` = your GitHu
 gh auth login --scopes workflow    # GitHub.com -> HTTPS -> web browser
 gh auth setup-git
 az login                           # sign in with your student account
-az account list -o table           # find "Azure for Students"
-az account set --subscription "Azure for Students"
+az account list --query "[?state=='Enabled'].{name:name, id:id}" -o table
+az account set --subscription <subscription-id>   # use the ID: names can repeat (an expired subscription may share the name)
 ```
 
 Check your credit in the Azure portal: search **Education** -> *Overview*. It must last until the end of the workshop.
